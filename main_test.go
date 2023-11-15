@@ -38,6 +38,10 @@ func TestExper(t *testing.T) {
 			"2+6/2",
 			5,
 		},
+		{
+			"(2+3)*4",
+			20,
+		},
 	}
 
 	for _, tt := range parameters {

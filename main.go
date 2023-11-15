@@ -54,21 +54,33 @@ func (s *Source) Expr() int {
 }
 
 func (s *Source) term() int {
-	x := s.number()
+	x := s.factor()
 	for {
 		switch s.peek() {
 		case '*':
 			s.next()
-			x *= s.number()
+			x *= s.factor()
 			continue
 		case '/':
 			s.next()
-			x /= s.number()
+			x /= s.factor()
 			continue
 		}
 		break
 	}
 	return x
+}
+
+func (s *Source) factor() int {
+	if s.peek() == '(' {
+		s.next()
+		ret := s.Expr()
+		if s.peek() == ')' {
+			s.next()
+		}
+		return ret
+	}
+	return s.number()
 }
 
 func main() {
