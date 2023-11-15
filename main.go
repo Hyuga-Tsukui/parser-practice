@@ -36,20 +36,34 @@ func (s *Source) next() {
 }
 
 func (s *Source) Expr() int {
-	x := s.number()
+	x := s.term()
 	for {
 		switch s.peek() {
 		case '+':
 			s.next()
-			x += s.number()
+			x += s.term()
 			continue
 		case '-':
 			s.next()
-			x -= s.number()
+			x -= s.term()
 			continue
+		}
+		break
+	}
+	return x
+}
+
+func (s *Source) term() int {
+	x := s.number()
+	for {
+		switch s.peek() {
 		case '*':
 			s.next()
 			x *= s.number()
+			continue
+		case '/':
+			s.next()
+			x /= s.number()
 			continue
 		}
 		break
