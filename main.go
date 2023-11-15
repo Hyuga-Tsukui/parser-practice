@@ -35,18 +35,30 @@ func (s *Source) next() {
 	s.Pos += 1
 }
 
-func (s *Source) expr() int {
+func (s *Source) Expr() int {
 	x := s.number()
-
-	for s.peek() == '+' {
-		s.next()
-		x += s.number()
+	for {
+		switch s.peek() {
+		case '+':
+			s.next()
+			x += s.number()
+			continue
+		case '-':
+			s.next()
+			x -= s.number()
+			continue
+		case '*':
+			s.next()
+			x *= s.number()
+			continue
+		}
+		break
 	}
 	return x
 }
 
 func main() {
-	exp := "12+34+56"
+	exp := "-1-1"
 	source := &Source{Str: exp}
-	fmt.Printf("%s=%d\n", exp, source.expr())
+	fmt.Printf("%s=%d\n", exp, source.Expr())
 }
