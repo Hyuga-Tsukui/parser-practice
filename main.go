@@ -71,16 +71,27 @@ func (s *Source) term() int {
 	return x
 }
 
+// factor = [spaces], ("(", <Exper>, ")") | number, [spaces].
 func (s *Source) factor() int {
+	var ret int
+	s.spaces()
 	if s.peek() == '(' {
 		s.next()
-		ret := s.Expr()
+		ret = s.Expr()
 		if s.peek() == ')' {
 			s.next()
 		}
-		return ret
+	} else {
+		ret = s.number()
 	}
-	return s.number()
+	s.spaces()
+	return ret
+}
+
+func (s *Source) spaces() {
+	for s.peek() == ' ' {
+		s.next()
+	}
 }
 
 func main() {
