@@ -1,3 +1,3 @@
-module mdparser
+module parser
 
 go 1.21.0
